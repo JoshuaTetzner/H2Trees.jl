@@ -134,6 +134,20 @@ function values(tree, node::Int)
     return values
 end
 
+function values(tree, nodes::Vector{Int})
+    values = Int[]
+    for node in nodes
+        if iszero(firstchild(tree, node))
+            append!(values, H2Trees.values(tree, node))
+        else
+            for i in H2Trees.leaves(tree, node)
+                append!(values, H2Trees.values(tree, Int(i)))
+            end
+        end
+    end
+    return values
+end
+
 function values(data::Union{BoxData,BoundingBallData})
     return data.values
 end
